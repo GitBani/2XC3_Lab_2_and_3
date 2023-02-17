@@ -3,8 +3,6 @@ This file corresponds to the first graded lab of 2XC3.
 Feel free to modify and/or add functions to this file.
 """
 import random
-import timeit
-import matplotlib.pyplot as pyplot
 
 
 # Create a random list length "length" containing whole numbers between 0 and max_value inclusive
@@ -73,6 +71,16 @@ def bubble_sort(L):
                 swap(L, j, j + 1)
 
 
+def bubble_sort2(L):
+    for i in range(len(L)):
+        for j in range(len(L) - 1):
+            value = L[j]
+            while j < len(L) - 1 and L[j] > L[j + 1]:
+                L[j] = L[j + 1]
+                j += 1
+            L[j] = value
+
+
 # ******************* Selection sort code *******************
 
 # Traditional Selection sort
@@ -90,33 +98,15 @@ def find_min_index(L, n):
     return min_index
 
 
-def timer(num_of_tests, array_len, array_maxval, sorting_algo):
-    times = []
-    for i in range(num_of_tests):
-        L = create_random_list(array_len, array_maxval)
-        start = timeit.default_timer()
-        sorting_algo(L)
-        end = timeit.default_timer()
-        times.append(end - start)
-    return times
-
-
-# ************* EXPERIMENT 1 *************
-num_of_tests = 100
-array_len = 1000
-max_val = 1000
-# Bubble Sort:
-bubblesort_times = timer(num_of_tests, array_len, max_val, bubble_sort)
-avg = sum(bubblesort_times) / num_of_tests
-pyplot.plot(bubblesort_times)
-pyplot.show()
-# Insertion Sort:
-insertionsort_times = timer(num_of_tests, array_len, max_val, bubble_sort)
-avg = sum(insertionsort_times) / num_of_tests
-pyplot.plot(insertionsort_times)
-pyplot.show()
-# Selection Sort:
-selectionsort_times = timer(num_of_tests, array_len, max_val, bubble_sort)
-avg = sum(selectionsort_times) / num_of_tests
-pyplot.plot(selectionsort_times)
-pyplot.show()
+def selection_sort2(L):
+    for i in range(len(L) // 2):
+        min_index = i
+        for j in range(i + 1, len(L) - i):
+            if L[j] < L[min_index]:
+                min_index = j
+        L[i], L[min_index] = L[min_index], L[i]
+        max_index = i
+        for j in range(i + 1, len(L) - i):
+            if L[j] > L[max_index]:
+                max_index = j
+        L[len(L) - 1 - i], L[max_index] = L[max_index], L[len(L) - 1 - i]
